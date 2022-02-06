@@ -1,0 +1,2 @@
+rootProject.name = "trawler-core"
+

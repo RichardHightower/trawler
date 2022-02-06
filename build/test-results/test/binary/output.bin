@@ -1,0 +1,26 @@
+kError: Unable to find associated type name department CRAP/Department for model Employee of module Module1
+ŠErrors Processing Association Definitions for model Employee in module Module1 [] [TagDefinition(moduleName=Module1, name=view1, description=tag for view 1 description), TagDefinition(moduleName=Module2, name=adminView, description=tag for adminView 1 description)]
+hError: Unable to find associated type name manager CRAP/Employee for model Department of module Module2
+ŒErrors Processing Association Definitions for model Department in module Module2 [] [TagDefinition(moduleName=Module1, name=view1, description=tag for view 1 description), TagDefinition(moduleName=Module2, name=adminView, description=tag for adminView 1 description)]
+ŒUnable to find field definition for field id (FAKEFIELDDEFINITION) Ref module1/FAKEFIELDDEFINITION for model EmployeeBad in module Module1 
+i FieldDefinition(name=id, fieldDefinition=FAKEFIELDDEFINITION, description=null, required=true, tags=[])
+LErrors Processing Field Definitions for model EmployeeBad in module Module1
+gUnable to process validations for field phoneNumber (PhoneNumber) for model Employee in module Module1
+IErrors Processing Field Definitions for model Employee in module Module1
+	tUnable to find field definition for field id (UUID) Ref fakemodule/UUID for model EmployeeBad in module FAKEMODULE 
+	Z FieldDefinition(name=id, fieldDefinition=UUID, description=null, required=true, tags=[])
+	OErrors Processing Field Definitions for model EmployeeBad in module FAKEMODULE
+nWarning while processing validations for field phoneNumber (PhoneNumber) for model Employee in module Module1
+JWarning processing Field Definitions for model Employee in module Module1
+mWarning: Unable to find associated type name department CRAP/Department for model Employee of module Module1
+PWarning processing Association Definitions for model Employee in module Module1
+jWarning: Unable to find associated type name manager CRAP/Employee for model Department of module Module2
+RWarning processing Association Definitions for model Department in module Module2
+gUnable to process validations for field phoneNumber (PhoneNumber) for model Employee in module Module1
+IErrors Processing Field Definitions for model Employee in module Module1
+gUnable to process validations for field phoneNumber (PhoneNumber) for model Employee in module Module1
+IErrors Processing Field Definitions for model Employee in module Module1
+nWarning while processing validations for field phoneNumber (PhoneNumber) for model Employee in module Module1
+JWarning processing Field Definitions for model Employee in module Module1
+nWarning while processing validations for field phoneNumber (PhoneNumber) for model Employee in module Module1
+JWarning processing Field Definitions for model Employee in module Module1
