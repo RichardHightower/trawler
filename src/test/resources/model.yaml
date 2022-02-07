@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Model
+
+metadata:
+  module-namespace: Company
+
+
+validation-rules:
+  phone:
+    min: 5
+    max: 15
+    regex: '\(?\<[0-9]{3}[-) ]?[0-9]{3}[ -]?[0-9]{4}\>'
+
+field-definitions:
+  UUID:
+    type: uuid
+  Name:
+    type: string
+    # validation-rules: add validation rules here
+    # length
+  PhoneNumber:
+    type: string
+    validation-rules: [phone]
+
+
+defininitions:
+  Employee:
+    description: An employee of a company
+    fields:
+      id:
+        fieldDefinition: UUID
+      firstName:
+        fieldDefinition: Name
+      lastName:
+        fieldDefinition: Name
+      homeNumber:
+        fieldDefinition: PhoneNumber #assumes PhoneNumber but you can leave off #/fields/
+      officeNumber:
+        fieldDefinition: PhoneNumber
+    associations:
+      department:
+        defintion: Department
+
+    Department:
+      description: A department of a company
+      fields:
+        id:
+          field: UUID
+        name:
+          field: Name
+          description: Name of department
+        manager:
+          field: Employee
+
+      associations:
+        manager:
+          defintion : Employee
+        employees:
+          defintion: [Employee]
