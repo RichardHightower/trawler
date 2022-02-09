@@ -1,7 +1,6 @@
 package trawler.core.reader
 
 import com.fasterxml.jackson.databind.JsonNode
-import trawler.core.Constants
 import trawler.core.config.AssociationDefinition
 import trawler.core.config.FieldDefinition
 import trawler.core.config.ModelDefinition
@@ -94,10 +93,19 @@ class YamlModelDefinitionReader(
         if (!associationNode.has(Constants.MODEL_ASSOCIATION_DEFINITION)) {
             return results.error("$moduleName/$modelName/$name must have ${Constants.MODEL_ASSOCIATION_DEFINITION} defined")
         }
-        val associationDef = associationNode.get("definition").asText()!!
+        val associationDefInitial  = associationNode.get(Constants.MODEL_ASSOCIATION_DEFINITION).asText()!!
+
+        val associationDef = if (associationDefInitial.startsWith("Many(") && associationDefInitial.endsWith(")")) {
+            associationDefInitial.substring(5, associationDefInitial.length-1).trim()
+        } else {
+            associationDefInitial
+        }
+
+        val many = associationDef!=associationDefInitial
+
         val description = associationNode.get(Constants.DESCRIPTION)?.asText()
 
-        return results.result(AssociationDefinition(name = name, definition = associationDef, description = description ))
+        return results.result(AssociationDefinition(name = name, definition = associationDef, description = description, many=many ))
     }
 
     private fun validateFieldNode(fieldName: String, fieldNode: JsonNode): Result<FieldDefinition> {

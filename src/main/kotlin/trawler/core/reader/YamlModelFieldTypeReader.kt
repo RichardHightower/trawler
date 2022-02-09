@@ -1,7 +1,6 @@
 package trawler.core.reader
 
 import com.fasterxml.jackson.databind.JsonNode
-import trawler.core.Constants
 import trawler.core.config.FieldTypeDefinition
 import trawler.core.internal.util.ResponseMessage
 import trawler.core.internal.util.Result

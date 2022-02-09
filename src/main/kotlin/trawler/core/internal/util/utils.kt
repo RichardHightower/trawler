@@ -1,5 +1,28 @@
 package trawler.core.internal.util
 
+import java.io.File
+
+
+data class RegexRuleResult(val success: Boolean, val message: String? = null) {
+    fun matched() = success
+    fun failedMatch() = !success
+}
+data class RegexRule(val regex: Regex, val message:String) {
+    fun isMatch( value:String) : Boolean = regex.matchEntire(value) !=null
+    fun matchValue(value: String, name: String? = null, context: Any? = null,  file: File?=null) : RegexRuleResult =
+        if (isMatch(value)) {
+            RegexRuleResult(true)
+        } else {
+            if (name != null && context != null) {
+                RegexRuleResult(false, "$name: $message \n $context \n $file")
+            } else if (name !=null) {
+                RegexRuleResult(false, "$name: $message $file")
+            } else {
+                RegexRuleResult(false, message)
+            }
+        }
+
+}
 
 enum class ResponseMessageType {
     WARNING,

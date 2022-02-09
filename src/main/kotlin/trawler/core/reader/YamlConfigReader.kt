@@ -3,16 +3,15 @@ package trawler.core.reader
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
-import trawler.core.Config
-import trawler.core.Constants
+import trawler.core.config.ModelConfig
 import trawler.core.internal.util.Result
 import trawler.core.internal.util.Results
 import java.io.File
 
 class YamlConfigReader {
 
-    fun readYamlConfig(file: File): Result<Config> {
-        val results = Results<Config>()
+    fun readYamlConfig(file: File): Result<ModelConfig> {
+        val results = Results<ModelConfig>()
         val mapper = ObjectMapper(YAMLFactory())
         val jsonNode = mapper.readTree(file)
         val apiVersion = jsonNode.get(Constants.API_VERSION).asText()
@@ -22,7 +21,7 @@ class YamlConfigReader {
             val modelFileReader = YamlModelFileReader(file, apiVersion, kind,moduleName, jsonNode, jsonNode)
             return modelFileReader.process()
         }
-        return results.result(Config(listOf(), listOf(), listOf(), listOf()))
+        return results.result(ModelConfig(listOf(), listOf(), listOf(), listOf()))
     }
 
 

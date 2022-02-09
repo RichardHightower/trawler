@@ -28,32 +28,28 @@ defininitions:
     description: An employee of a company
     fields:
       id:
-        fieldDefinition: UUID
+        definition: UUID
       firstName:
-        fieldDefinition: Name
+        definition: Name
       lastName:
-        fieldDefinition: Name
+        definition: Name
       homeNumber:
-        fieldDefinition: PhoneNumber #assumes PhoneNumber but you can leave off #/fields/
+        definition: PhoneNumber #assumes PhoneNumber but you can leave off #/fields/
       officeNumber:
-        fieldDefinition: PhoneNumber
+        definition: PhoneNumber
     associations:
       department:
-        defintion: Department
-
-    Department:
+        definition: Department
+  Department:
       description: A department of a company
       fields:
         id:
-          field: UUID
+          definition: UUID
         name:
-          field: Name
+          definition: Name
           description: Name of department
-        manager:
-          field: Employee
-
       associations:
         manager:
-          defintion : Employee
+          definition : Employee
         employees:
-          defintion: [Employee]
+          definition: Many(Employee)

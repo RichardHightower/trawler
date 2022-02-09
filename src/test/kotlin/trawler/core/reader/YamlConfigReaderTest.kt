@@ -1,4 +1,5 @@
-package trawler.core
+package trawler.core.reader
+
 
 import org.junit.jupiter.api.Test
 
@@ -38,6 +39,14 @@ internal class YamlConfigReaderTest {
         println(configResult.result().fieldTypes)
 
         println(configResult.result().models)
+
+
+        val associations = configResult.result().models.flatMap { it.associations }
+
+        val association = associations.find { it.name == "employees" }!!
+
+        assertEquals("Employee", association.definition)
+        assertEquals(true, association.many)
 
 
 

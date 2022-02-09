@@ -1,8 +1,7 @@
 package trawler.core.reader
 
 import com.fasterxml.jackson.databind.JsonNode
-import trawler.core.Config
-import trawler.core.Constants
+import trawler.core.config.ModelConfig
 import trawler.core.internal.util.Result
 import trawler.core.internal.util.Results
 import java.io.File
@@ -14,11 +13,11 @@ class YamlModelFileReader(
     kind: String,
     rootNode: JsonNode,
     private val modelFile: JsonNode?
-) : YamlConfigReaderComponent<Result<Config>>(file, moduleName, apiVersion, kind, rootNode, modelFile) {
-    override fun process(): Result<Config> = readModelFromYamlFile(modelFile!!)
+) : YamlConfigReaderComponent<Result<ModelConfig>>(file, moduleName, apiVersion, kind, rootNode, modelFile) {
+    override fun process(): Result<ModelConfig> = readModelFromYamlFile(modelFile!!)
 
-    fun readModelFromYamlFile(jsonNode: JsonNode): Result<Config> {
-        val results = Results<Config>()
+    fun readModelFromYamlFile(jsonNode: JsonNode): Result<ModelConfig> {
+        val results = Results<ModelConfig>()
 
 
         val validationReader = YamlModelValidationReader(
@@ -74,7 +73,7 @@ class YamlModelFileReader(
             val validationDefinitions = validationRuleResults.filter { it.success }.map { it.result() }
             val fieldTypeDefinitions = fieldTypes.filter { it.success }.map { it.result() }
             val modelDefinitions = models.filter { it.success }.map { it.result() }
-            results.result(Config(listOf(), validationDefinitions, fieldTypeDefinitions, models = modelDefinitions))
+            results.result(ModelConfig(listOf(), validationDefinitions, fieldTypeDefinitions, models = modelDefinitions))
         }
     }
 

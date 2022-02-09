@@ -1,8 +1,7 @@
 package trawler.core.reader
 
 import com.fasterxml.jackson.databind.JsonNode
-import trawler.core.Constants
-import trawler.core.RegexRule
+import trawler.core.internal.util.RegexRule
 import java.io.File
 
 abstract class YamlConfigReaderComponent<T>(

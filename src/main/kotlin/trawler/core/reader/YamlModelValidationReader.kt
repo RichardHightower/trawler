@@ -1,7 +1,6 @@
 package trawler.core.reader
 
 import com.fasterxml.jackson.databind.JsonNode
-import trawler.core.Constants
 import trawler.core.config.ValidationConfig
 import trawler.core.config.ValidationDefinition
 import trawler.core.internal.util.Result

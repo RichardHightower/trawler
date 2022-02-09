@@ -1,6 +1,6 @@
-package trawler.core
+package trawler.core.config
 
-import trawler.core.config.*
+
 import trawler.core.internal.util.ResponseMessage
 import trawler.core.internal.util.ResponseMessageType
 import trawler.core.internal.util.Result
@@ -19,16 +19,11 @@ data class ProcessConfigResponse(val backendDataModule: BackendDataModule, val m
     }
 }
 
-data class Config(val tags: List<TagDefinition>,
-                  val validations: List<ValidationDefinition>,
-                  val fieldTypes: List<FieldTypeDefinition>,
-                  val models: List<ModelDefinition>
-)
 
-class ConfigReader(private val validationErrorsAreWarnings: Boolean=false, private val associationErrorsAreWarning : Boolean=false) {
+class ModelConfigReader(private val validationErrorsAreWarnings: Boolean=false, private val associationErrorsAreWarning : Boolean=false) {
 
     fun processConfig(
-        config:Config
+        config:ModelConfig
     ): ProcessConfigResponse = processConfig(config.tags, config.validations, config.fieldTypes, config.models)
 
     fun processConfig(
@@ -172,23 +167,19 @@ class ConfigReader(private val validationErrorsAreWarnings: Boolean=false, priva
         val results = Results<Association>()
 
         return model.associations.map { aD ->
-            val many = aD.definition.startsWith("[") && aD.definition.endsWith("]")
-            val defRef = if(many) {
-                aD.definition.substring(1, aD.definition.length -1)
-            } else {
-                aD.definition
-            }
-            val ref = refToNormalizeRefString(model.moduleName, defRef)
+
+
+            val ref = refToNormalizeRefString(model.moduleName, aD.definition)
             val associatedModelDef = modelMap[ref]
 
             if (associatedModelDef != null) {
-                results.result(AssociationRef(aD.name, aD.required, many,
+                results.result(AssociationRef(aD.name, aD.required, aD.many,
                         normalizeTags(model.moduleName, aD.tags).toSet(),ref, aD.description))
             } else {
                 if (associationErrorsAreWarning) {
-                    results.warning( "Warning: Unable to find associated type name ${aD.name} ${aD.definition} for model ${model.name} of module ${model.moduleName}")
+                    results.warning( "Warning: Unable to find associated type name ${aD.name} ${aD.definition} using ref $ref for model ${model.name} of module ${model.moduleName}")
                 } else {
-                    results.error( "Error: Unable to find associated type name ${aD.name} ${aD.definition} for model ${model.name} of module ${model.moduleName}")
+                    results.error( "Error: Unable to find associated type name ${aD.name} ${aD.definition} using ref $ref for model ${model.name} of module ${model.moduleName}")
                 }
             }
         }

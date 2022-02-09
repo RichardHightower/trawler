@@ -48,10 +48,8 @@ defininitions:
         name:
           definition: Name
           description: Name of department
-
-
       associations:
         manager:
           definition : Employee
         employees:
-          definition: [Employee]
+          definition: Many(Employee)
