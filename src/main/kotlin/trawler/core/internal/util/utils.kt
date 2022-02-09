@@ -17,6 +17,7 @@ data class Result<T>( val success:Boolean, val value: T?, val responseMessage: R
    fun isWarning()  = if (responseMessage!=null) responseMessage.type === ResponseMessageType.WARNING  else false
    fun isError()  = if (responseMessage!=null) responseMessage.type === ResponseMessageType.ERROR  else false
    fun isFatal()  = if (responseMessage!=null) responseMessage.type === ResponseMessageType.FATAL  else false
+   fun isAnyErrorType() : Boolean  =  isWarning() || isError() || isFatal()
 }
 
 class Results <T> {
