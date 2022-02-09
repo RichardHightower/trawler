@@ -2,6 +2,11 @@ package trawler.core.config
 
 import trawler.core.model.FieldType
 
+data class ModelConfig(val tags: List<TagDefinition>,
+                       val validations: List<ValidationDefinition>,
+                       val fieldTypes: List<FieldTypeDefinition>,
+                       val models: List<ModelDefinition>
+)
 
 data class TagDefinition(val moduleName: String, val name: String, val description: String?)
 
@@ -19,7 +24,7 @@ data class FieldDefinition(val name: String, val fieldDefinition: String, val de
 
 
 data class AssociationDefinition(val name: String, val definition: String, val description: String?=null,  val required: Boolean=true,
-                           val tags: List<String> = listOf())
+                           val tags: List<String> = listOf(), val many: Boolean = false)
 
 data class ModelDefinition(val moduleName: String,
                            val name: String,

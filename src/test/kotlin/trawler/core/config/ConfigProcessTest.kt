@@ -1,18 +1,17 @@
-package trawler.core
+package trawler.core.config
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import trawler.core.config.*
 import trawler.core.internal.util.ResponseMessageType
 import trawler.core.model.FieldType
 import trawler.core.model.ValidationType
 import java.io.File
 
 
-internal class ConfigReaderTest {
+internal class ConfigProcessTest {
     val module1 = "Module1";
     val module2 = "Module2";
 
@@ -62,12 +61,12 @@ internal class ConfigReaderTest {
             ),
             associations = listOf(
                 AssociationDefinition("manager", "Employee"),
-                AssociationDefinition("employees", "[Employee]"),
+                AssociationDefinition("employees", "Employee", many = true),
             )
         )
     )
 
-    val configReader = ConfigReader()
+    val configReader = ModelConfigReader()
 
 
     @Test
@@ -367,7 +366,7 @@ internal class ConfigReaderTest {
 
     @Test
     fun errorCaseValidationRuleNotFoundWarningOnly() {
-        val configReader = ConfigReader(true)
+        val configReader = ModelConfigReader(true)
         val fieldTypes = listOf(
             FieldTypeDefinition(module1, "UUID", FieldType.UUID),
             FieldTypeDefinition(module1, "Name", FieldType.STRING),
@@ -411,7 +410,7 @@ internal class ConfigReaderTest {
     @Test
     fun errorCaseBadValidationRuleWarningOnly() {
 
-        val configReader = ConfigReader(true)
+        val configReader = ModelConfigReader(true)
 
         val validations = listOf(
             ValidationDefinition(module1, "phone", "val1 description", listOf(
@@ -440,7 +439,7 @@ internal class ConfigReaderTest {
     @Test
     fun errorCaseBadValidationRuleParamProblem() {
 
-        val configReader = ConfigReader()
+        val configReader = ModelConfigReader()
 
         val validations = listOf(
             ValidationDefinition(module1, "phone", "val1 description", listOf(
@@ -467,7 +466,7 @@ internal class ConfigReaderTest {
     @Test
     fun errorCaseBadValidationRuleParamProblemWarningOnly() {
 
-        val configReader = ConfigReader(true)
+        val configReader = ModelConfigReader(true)
 
         val validations = listOf(
             ValidationDefinition(module1, "phone", "val1 description", listOf(
@@ -530,7 +529,7 @@ internal class ConfigReaderTest {
     @Test
     fun errorCaseBadAssociationWarningOnly() {
 
-        val configReader = ConfigReader(associationErrorsAreWarning = true)
+        val configReader = ModelConfigReader(associationErrorsAreWarning = true)
         val models:List<ModelDefinition> = listOf(
             ModelDefinition(module1, "Employee",
                 fields = listOf(
