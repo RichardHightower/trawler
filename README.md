@@ -159,38 +159,41 @@ roles:
     description: normal user
     rulesets: [user]
     properties:
-      employeeId: Company/UUID
+        empId: uuid 
+    associations:
+        employee: empId=Company/Employee/id
     
 # Currently two types of resources Model (data model) and Path (URL path to front end).     
 rulesets:
     admin:
-      'Model/Company/Employee':
+      'Admin access to Model/Company/Employee':
           effect: Allow
-          resource: Model/Company/Employee # (default is to use the name as the resource)
+          resource: Model/Company/Employee 
           action: [Create, Read, Update, Delete]
       
-      'Company/Department':
+      'Admin access to Company/Department':
           effect: Allow
+          resource: Model/Company/Department 
           actions: [Create, Read, Update, Delete]
       
+      'Admin access to to all admin URI resources':
+          effect: Allow
+          resource: URI/admin/**
+          actions: [*]    
+      
     user: 
-      'Company/Employee':
-          effect: Allow #default is Allow
+      'Allow read access to Employee model objects':
+          effect: Allow
           actions: [Read, Update]
+          resource: Model/Company/Employee 
           conditions: 
-            - 'principal.employeeId=this.id'
+            - 'principal.empId=this.id'
       
-      'Company/Department':
+      'Allow read/update access for Department only if logged in principal is the manager of this department':
           actions: [Read, Update]
+          resource: Model/Company/Department
           conditions: 
-            [principal.employeeId=this.manager.id]
-          
+            - principal.empId=this.manager.id
       
-      'Company/Employee':
-          actions: [Read]
-          roles: [#roles:User]
-      
-      'Company/Department':
-          actions: [Read]
 
 ```

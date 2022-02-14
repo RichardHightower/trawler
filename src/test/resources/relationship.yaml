@@ -1,0 +1,64 @@
+apiVersion: trawler/v1
+kind: Relationships
+
+metadata:
+  module-name: Company
+
+column-definitions:
+  String:
+    type: varchar
+    size: 255
+  Name:
+    type: varchar
+    size: 25
+  PhoneNumber:
+    type: varchar
+    size: 11
+
+relationship-definitions:
+  Employee:
+    table: EMPLOYEES
+    columns:
+      id:
+        definition: String
+        column: EMPLOYEE_ID
+      firstName:
+        definition: Name
+        column: FIRST_NAME
+      lastName:
+        definition: Name
+        column: LAST_NAME
+      homeNumber:
+        definition: PhoneNumber
+      officeNumber:
+        definition: PhoneNumber
+    relationships:
+      manyToOne:
+        field: department
+        model: Company/Department
+        fk: departmentId # Can be written as Company/Employee/departmentId
+        key: id # Can be written as Company/Department/id
+        tags: [foo, bar] #load department info on all views
+
+  Depatment:
+    columns:
+      id:
+        definition: String
+      name:
+        definition: Name
+        description: Name of department
+
+    relationships:
+      oneToMany:
+        field: employees
+        model: Company/Employee
+        fk: Company/Employee/departmentId  # Company/Employee is optional and is assumed
+        key: Company/Department/id  # Company/Department/
+        tags: [nested] #load employees info on only nested calls
+
+      oneToOne:
+        field: manager
+        model: Company/Employee
+        fk: Company/Department/managerId
+        key: Company/Employee/id
+        tags: [nested] #load employees info on only nested calls
