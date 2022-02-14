@@ -1,4 +1,4 @@
-apiVersion: trawler/v1
+apiVersion: apps/v1
 kind: Model
 
 metadata:

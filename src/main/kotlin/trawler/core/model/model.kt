@@ -7,6 +7,8 @@ enum class FieldType(val fieldTypeName: String) {
     BIG_INT("big_int"),
     BIG_DECIMAL("decimal"),
     UUID("uuid"),
+    DATE("date"),
+    DATE_TIME("date_time"),
     ENUM("enum"),
 }
 
